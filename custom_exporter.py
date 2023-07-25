@@ -2,6 +2,7 @@ from prometheus_client import start_http_server, Gauge
 import time
 import os
 
+APP_PORT=8000
 g = Gauge('uptime_seconds', 'Description of gauge', ['mac_address'])
 
 def process_request(t):
@@ -10,7 +11,8 @@ def process_request(t):
         g.labels(mac_address=os.getenv('MAC_ADDRESS')).set(uptime_seconds)
 
 if __name__ == '__main__':
-    start_http_server(8000)
+    start_http_server(APP_PORT)
+    print("Server is running on port", APP_PORT)
     while True:
         process_request(time.time())
         time.sleep(15)
